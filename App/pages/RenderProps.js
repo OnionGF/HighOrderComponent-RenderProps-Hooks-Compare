@@ -5,11 +5,11 @@ import getRandomColor from '../ColorUtil'
 export default function RenderProps() {
 
     return (
-        <ChangeTheme>
+        <ChangeTheme initColor={'white'}>
             {
                 ({theme,changeTheme})=>
                 <View style={{backgroundColor:theme,flex:1,alignItems:'center',justifyContent:'center'}}>
-                    <CountNumber>
+                    <CountNumber initNumber={0}>
                         {
                             ({count,add,minus})=>
                             <>
@@ -28,7 +28,7 @@ export default function RenderProps() {
 
 
 class CountNumber extends React.Component{
-    state={count:0};
+    state={count:this.props.initNumber};
     add=()=>this.setState({count:this.state.count+1});
     minus=()=>this.setState({count:this.state.count-1});
     render(){
@@ -41,9 +41,7 @@ class CountNumber extends React.Component{
 }
 
 class ChangeTheme extends React.Component{
-    state={
-        theme:'white'
-    };
+    state={theme:this.props.initColor};
     changeTheme=()=>this.setState({theme:getRandomColor()});
     render(){
         return this.props.children({

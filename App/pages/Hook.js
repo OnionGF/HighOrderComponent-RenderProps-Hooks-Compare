@@ -3,31 +3,34 @@ import {View, Text,Button} from 'react-native'
 import getRandomColor from '../ColorUtil'
 
 export default function HookCount() {
-    const {count,addCount,minusCount} = countNumber();
-    const {theme,changeTheme} = changeThemeFunc();
+    const [count,addCount,minusCount] = countNumber(0);
+    const [theme,changeBackgroundColor] = changeThemeFunc('white');
     return (
         <View style={{backgroundColor:theme,flex:1,alignItems:'center',justifyContent:'center'}}>
             <Text>You clicked {count} times</Text>
             <Button onPress={addCount} title={'add'}/>
             <Button onPress={minusCount} title={'minus'}/>
-            <Button onPress={changeTheme} title={'ChangeTheme'}/>
+            <Button onPress={changeBackgroundColor} title={'ChangeTheme'}/>
         </View>
     );
 }
 
-function countNumber() {
-    const [count, setCount] = useState(0);
-    return {
+function countNumber(initNumber) {
+    const [count, setCount] = useState(initNumber);
+    const addCount=()=> setCount(count + 1);
+    const minusCount=()=>setCount(count -1);
+    return [
         count,
-        addCount:()=> {setCount(count + 1)},
-        minusCount:()=>{setCount(count -1)}
-    }
+        addCount,
+        minusCount
+    ]
 }
 
-function changeThemeFunc() {
-    const [theme, changeTheme] = useState('white');
-    return {
+function changeThemeFunc(initColor) {
+    const [theme, changeTheme] = useState(initColor);
+    const changeBackgroundColor=()=>changeTheme(getRandomColor())
+    return [
         theme,
-        changeTheme:()=>changeTheme(getRandomColor())
-    }
+        changeBackgroundColor
+    ]
 }

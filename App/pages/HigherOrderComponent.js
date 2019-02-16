@@ -14,9 +14,9 @@ function Count({count,add,minus,theme,changeTheme}) {
     );
 }
 
-const countNumber= (WrappedComponent)=>
+const countNumber=(initNumber)=> (WrappedComponent)=>
     class CountNumber extends React.Component{
-        state={count:0};
+        state={count:initNumber};
 
         add=()=>this.setState({count:this.state.count+1});
 
@@ -33,10 +33,10 @@ const countNumber= (WrappedComponent)=>
     };
 
 
-const changeTheme=(WrappedComponent)=> {
+const changeTheme=(initColor)=>(WrappedComponent)=> {
     class ChangeTheme extends React.Component {
         state = {
-            theme: 'white'
+            theme: initColor
         };
         changeTheme = () => this.setState({theme: getRandomColor()});
 
@@ -54,4 +54,4 @@ const changeTheme=(WrappedComponent)=> {
     return ChangeTheme;
 };
 
-export default changeTheme(countNumber(Count));
+export default changeTheme('white')(countNumber(0)(Count));
